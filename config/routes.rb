@@ -1,7 +1,9 @@
 Myflix::Application.routes.draw do
   get 'ui(/:action)', controller: 'ui'
 
-  get '/home', to: 'videos#index'
+  get '/home', to: 'categories#index'
 
-  resources :videos, except: [:edit, :destroy, :new, :create]
+  resources :videos, only: [:show]
+
+  resources :categories, only: [:index, :show]
 end
