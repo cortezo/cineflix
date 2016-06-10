@@ -1,37 +1,35 @@
 require 'spec_helper'
 
 describe Video do
-  it "saves itself" do
-    # Typically 3 phases.  1, setup the data.  2, perform an action.  3, verify the result.
+  it { should belong_to(:category) }
+  it { should validate_presence_of(:title) }
+  it { should validate_presence_of(:description) }
 
-    # Setup data
-    video = Video.new(title: "Adventures in Rails", description: "A movie about cross-country travel.", large_cover_url: "large_cover.jpg", small_cover_url: "small_cover.jpg")
+  describe '.search_by_title' do
+    it 'returns an empty array if there is no match' do 
+      expect(Video.search_by_title("blahlkajf;alkjef;al")).to eq([])
+    end
+    
+    it 'returns an array of one Video for an exact match' do
+      predator = Video.create(title: "Predator", description: "Aliens in the jungle!")
+      expect(Video.search_by_title("Predator")).to eq([predator])
+    end
 
-    # Perform action
-    video.save
+    it 'returns an array of one Video for a partial match' do 
+      ghostbusters = Video.create(title: "Ghost Busters", description: "There's something strange in your neighborhood.")
+      expect(Video.search_by_title("sters")).to eq([ghostbusters])
+    end
 
-    # Verify result
-    expect(Video.first).to eq(video)
+    it 'should return an array with all matched Videos ordered by created_at' do
+      ghostbusters = Video.create(title: "Ghost Busters", description: "There's something strange in your neighborhood.", created_at: 2.day.ago)
+      ghostbusters_2 = Video.create(title: "Ghost Busters 2", description: "There are more strange things in your neighborhood.", created_at: 1.day.ago)
 
-    # Alternate syntax for verifying result:
-    # Video.first.should eq(video)
-    # Video.first.should == video
-  end
+      expect(Video.search_by_title("Busters")).to eq([ghostbusters, ghostbusters_2])
+    end
 
-  it "belongs to category" do
-    adventure = Category.create(name: "Adventure")
-    terminator = Video.create(title: "Terminator", description: "Robot from the future!", large_cover_url: "terminator_large.jpg", small_cover_url: "terminator_small.jpg", category: adventure)
-
-    expect(terminator.category).to eq(adventure)
-  end
-
-  it "does not save a video without a description" do
-    video = Video.create(title: "Terminator")
-    expect(Video.count).to eq(0)
-  end
-
-  it "does not save a video without a title" do
-    video = Video.create(description: "Robot from the future!")
-    expect(Video.count).to eq(0)
+    it 'should return an empty array when search is an empty string' do
+      expect(Video.search_by_title("")).to eq([])
+    end
   end
 end
+
