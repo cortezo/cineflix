@@ -1,0 +1,11 @@
+- if @results.empty?
+  %p No videos found.
+- else
+  .videos
+    - @results.in_groups_of(6) do |video_group|
+      .row
+        - video_group.each do |video|
+          - if video != nil
+            .video.col-md-2
+              = link_to video_path(video) do
+                %img(src="#{video.small_cover_url}")
