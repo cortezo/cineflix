@@ -5,8 +5,9 @@ describe Category do
   it { should validate_presence_of(:name) }
 
   describe '#recent_videos' do
+    let(:cat) { Category.create(name: "Action") }
+    
     it 'returns an array of all videos if less than 6 are present' do
-      cat = Category.create(name: "Action")
       video_1 = Video.create(title: "Predator", description: "Aliens in the jungle!", category: cat)
       video_2 = Video.create(title: "Terminator", description: "Future robots!", category: cat)
       video_3 = Video.create(title: "Predator 2", description: "Aliens in the jungle again!", category: cat)
@@ -16,7 +17,6 @@ describe Category do
     end
 
     it 'orders videos by newest first' do
-      cat = Category.create(name: "Action")
       video_1 = Video.create(title: "Predator", description: "Aliens in the jungle!", created_at: 4.day.ago, category: cat)
       video_2 = Video.create(title: "Terminator", description: "Future robots!", created_at: 3.day.ago, created_at: 4.day.ago, category: cat)
       video_3 = Video.create(title: "Predator 2", description: "Aliens in the jungle again!", created_at: 2.day.ago, category: cat)
@@ -26,7 +26,6 @@ describe Category do
     end
 
     it 'only returns 6 videos if there are more than 6 videos' do
-      cat = Category.create(name: "Action")
       video_titles = %w{Predator Stealth Z Zombieland Ghostbusters Cliffhanger Bloodsport Taken ID4}
       video_titles.each do |title|
         Video.create(title: title, description: "A rambunctious action movie!", category: cat)
@@ -36,8 +35,6 @@ describe Category do
     end
 
     it 'returns an empty array if there are no videos' do
-      cat = Category.create(name: "Action")
-
       expect(cat.recent_videos).to eq([])
     end
   end
