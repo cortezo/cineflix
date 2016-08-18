@@ -1,13 +1,12 @@
 class VideosController < ApplicationController
+  before_action :require_user
   before_action :set_video, only: [:show]
-  before_filter :require_user
 
   def show
   end
 
   def search
     @results = Video.search_by_title(params[:search_term])
-    render 'search_results'
   end
 
   private
