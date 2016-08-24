@@ -7,6 +7,8 @@ Myflix::Application.routes.draw do
       # Always use Get for search forms.  This allows people to bookmark a search.
       get :search, to: 'videos#search'
     end
+
+    resources :reviews, only: [:create]
   end
 
   resources :categories, only: [:show]
