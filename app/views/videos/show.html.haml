@@ -15,34 +15,19 @@
 %section.reviews.container
   .row
     .col-sm-10.col-sm-offset-1
-      %form
+      = bootstrap_form_for [@video, @review] do |f|
         %fieldset
-          .form-group
-            %label Rate this video (PLACEHOLDER)
-            .row
-              .col-sm-3
-                %select.form-control(name="")
-                  %option(value="5") 5 Stars
-                  %option(value="4") 4 Stars
-                  %option(value="3") 3 Stars
-                  %option(value="2") 2 Stars
-                  %option(value="1") 1 Star
-          .form-group
-            %label Write Review (PLACEHOLDER)
-            .row
-              .col-sm-8
-                %textarea.form-control(name="" rows="6")
-        %fieldset.form-group.actions.clearfix
-          %input(type="submit" value="Submit" class="btn")
+          .row
+            .col-sm-2
+              = f.select :rating, [["1 Star", 1], ["2 Stars", 2], ["3 Stars", 3], ["4 Stars", 4], ["5 Stars", 5]].reverse, label: "Rate this video"
+          .row
+            .col-sm-8
+              = f.text_area :body, rows: 6, label: "Write review"
+        %fieldset.actions.clearfix
+          = f.submit "Submit", class: "btn"
           %a(href="") Cancel
       %header
-        %h3 User Reviews (253)
+        %h3= "User Reviews (#{@video.reviews.count})"
       %ul
-        - 8.times do
-          %article.review
-            %li.row
-              .col-sm-2
-                %span Rating: 5 / 5
-                %p by <a href="">John A. Zoidberg</a>
-              .col-sm-8
-                %p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec laoreet malesuada pellentesque. Fusce sed risus vulputate, mattis augue molestie, laoreet magna. Aliquam dolor turpis, iaculis mollis finibus sit amet, venenatis nec augue. Aliquam dictum porttitor urna, non pulvinar ex mollis eleifend. Praesent tristique in libero non bibendum. In aliquam odio eu molestie vulputate.
+        - @video_reviews.each do |r|
+          = render r, review: r unless r.new_record?
