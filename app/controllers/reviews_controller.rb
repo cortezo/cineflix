@@ -3,14 +3,16 @@ class ReviewsController < ApplicationController
   before_action :set_video
 
   def create
+    @video = Video.find(params[:video_id])
     @review = @video.reviews.new(review_params)
     @review.user = current_user
 
     if @review.save
-      redirect_to :back      #"videos/#{@review.video.id}"
+      redirect_to @video      #"videos/#{@review.video.id}"
     else
       flash[:error] = "Review creation failed."
-      redirect_to :back
+      @video_reviews = @video.reviews.reload
+      render 'videos/show', video: @video, video_reviews: @video_reviews #this ditches the invalid .new that is present from above.
     end
   end
 

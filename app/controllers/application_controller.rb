@@ -16,6 +16,6 @@ class ApplicationController < ActionController::Base
 
   def access_denied
     flash[:info] = "Access is reserved for members only.  Please sign in first."
-    redirect_to root_path
+    redirect_to sign_in_path
   end
 end

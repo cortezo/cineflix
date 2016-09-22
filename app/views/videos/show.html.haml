@@ -25,9 +25,9 @@
               = f.text_area :body, rows: 6, label: "Write review"
         %fieldset.actions.clearfix
           = f.submit "Submit", class: "btn"
-          %a(href="") Cancel
+          = link_to "Cancel", @video
       %header
-        %h3= "User Reviews (#{@video.reviews.count})"
+        %h3= "User Reviews (#{@video_reviews.count})"
       %ul
         - @video_reviews.each do |r|
           = render r, review: r unless r.new_record?
