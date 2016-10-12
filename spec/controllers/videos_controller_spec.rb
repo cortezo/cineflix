@@ -19,9 +19,8 @@ describe VideosController do
       session[:user_id] = Fabricate(:user).id
       video = Fabricate(:video)
       review1 = Fabricate(:review, video: video)
-      review2 = Fabricate(:review, video: video)
       get :show, id: video.id
-      expect(assigns(:video_reviews)).to match_array [review1, review2]
+      expect(assigns(:video_reviews)).to match_array [review1]
     end
 
     ### NOTES ###

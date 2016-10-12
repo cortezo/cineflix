@@ -1,6 +1,7 @@
 class Video < ActiveRecord::Base
   belongs_to :category, foreign_key: :category_id
   has_many :reviews, -> { order("created_at DESC") }, foreign_key: :video_id
+  has_many :queue_items, foreign_key: :video_id
 
   validates_presence_of :title, :description
 
