@@ -8,11 +8,12 @@ Myflix::Application.routes.draw do
       get :search, to: 'videos#search'
     end
 
-    resources :reviews, only: [:create]
+    resources :reviews, only: [:create, :update]
   end
 
   resources :categories, only: [:show]
   resources :users, only: [:create]
+  resources :queue_items, only: [:create, :index] # Not nesting this under #Videos, in case other non-vide items are needed in the future.
 
   get 'register', to: "users#new"
   get 'sign_in', to: "sessions#new"

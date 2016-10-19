@@ -16,6 +16,19 @@ class ReviewsController < ApplicationController
     end
   end
 
+  def edit
+
+  end
+
+  def update
+    if @review.update(review_params)
+      flash[:notice] = "Review successfully updated."
+      redirect_to @video
+    else
+      render "video/show"
+    end
+  end
+
   private
 
   def review_params

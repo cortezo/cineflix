@@ -12,4 +12,15 @@ class Video < ActiveRecord::Base
       where("title LIKE ?", "%#{search_term}%").order("created_at ASC")
     end
   end
+
+  def avg_rating
+    if self.reviews != []
+      ratings = []
+      self.reviews.each do |review|
+        ratings << review.rating
+      end
+
+      (ratings.reduce(:+) / ratings.count).round(1)
+    end
+  end
 end

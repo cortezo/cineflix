@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe ReviewsController do
   describe "POST create" do
-    let(:video) { Fabricate(:video)}
+    let(:video) { Fabricate(:video) }
     context "without authenticated user" do
       before do
         post :create, review: Fabricate.attributes_for(:review), video_id: video.id
@@ -50,7 +50,7 @@ describe ReviewsController do
         end
 
         it "renders the videos show page" do
-          post :create, review: { rating: 5 }, video_id: video.id
+          post :create, review: { rating: 58 }, video_id: video.id
 
           response.should render_template "videos/show"
         end
