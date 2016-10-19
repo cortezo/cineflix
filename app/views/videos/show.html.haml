@@ -20,7 +20,7 @@
           .row
             .col-sm-2
               -# Equivalent to--  = f.select :rating, [["1 Star", 1], ["2 Stars", 2], ["3 Stars", 3], ["4 Stars", 4], ["5 Stars", 5]].reverse, label: "Rate this video"
-              = f.select :rating, [5,4,3,2,1].map {|number| [pluralize(number, "Star"), number]}, label: "Rate this video"
+              = f.select :rating, rating_select_array, label: "Rate this video"
           .row
             .col-sm-8
               = f.text_area :body, rows: 6, label: "Write review"
