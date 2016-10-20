@@ -17,19 +17,18 @@
             - @queue_items.each do |item|
               / If User hasn't reviewed this item, start a new Review object.
               - review = Review.find_by(video_id: item.video_id, user_id: item.user_id) || Review.new
-              - video = Video.find(item.video_id)
-              = form_for [video, review] do |f|
+              = form_for [item.video, review] do |f|
                 %tr
                   %td
                     %input.form-control(type="text" value="1")
                   %td
-                    = link_to "#{Video.find(item.video_id).title}", video_path(item.video_id)
+                    = link_to item.video.title, item.video
                   %td
                     = button_to "Play", nil, class: "btn btn-default"
                   %td
-                    = my_queue_rating_select(f, review, video)
+                    = my_queue_rating_select(f, review, item.video)
                   %td
-                    = link_to video.category.name, category_path(video.category)
+                    = link_to item.video.category.name, item.video.category
                   %td
                     = link_to "", method: :post do
                       %i.glyphicon.glyphicon-remove

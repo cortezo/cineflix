@@ -51,17 +51,17 @@ describe QueueItemsController do
     end
 
     context "with authenticated user" do
-      let(:current_user) { Fabricate(:user) }
+      let(:user) { Fabricate(:user) }
       let(:video1) { Fabricate(:video) }
       let(:video2) { Fabricate(:video) }
-      let(:queue_item1) { QueueItem.create(user_id: current_user.id, video_id: video1.id) }
-      let(:queue_item2) { QueueItem.create(user_id: current_user.id, video_id: video2.id) }
+      let(:queue_item1) { QueueItem.create(user: user, video: video1) }
+      let(:queue_item2) { QueueItem.create(user: user, video: video2) }
       before do
-        session[:user_id] = current_user.id
+        session[:user_id] = user.id
         get :index
       end
 
-      it "should return an array of queueitems for the current_user" do
+      it "sets @queue_items to the queue for the current_user" do
         expect(assigns(:queue_items)).to match_array [queue_item1, queue_item2]
       end
       it "should render the my queue page" do

@@ -8,7 +8,7 @@ class QueueItemsController < ApplicationController
   def create
     video = Video.find(params[:video_id])
 
-    @queue_item = QueueItem.new(video_id: video.id, user_id: current_user.id)
+    @queue_item = QueueItem.new(video: video, user: current_user)
 
     if @queue_item.save
       redirect_to video_path(video)
