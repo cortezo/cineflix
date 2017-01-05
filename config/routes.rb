@@ -14,7 +14,7 @@ Myflix::Application.routes.draw do
   resources :categories, only: [:show]
   resources :users, only: [:create]
 
-  resources :queue_items, only: [:create] # Not nesting this under #Videos, in case other non-vide items are needed in the future.
+  resources :queue_items, only: [:create, :destroy] # Not nesting this under #Videos, in case other non-vide items are needed in the future.
   get 'my_queue', to: 'queue_items#index'
 
   get 'register', to: "users#new"

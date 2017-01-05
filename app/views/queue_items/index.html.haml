@@ -19,8 +19,7 @@
               - review = Review.find_by(video_id: item.video_id, user_id: item.user_id) || Review.new
               = form_for [item.video, review] do |f|
                 %tr
-                  %td
-                    %input.form-control(type="text" value="1")
+                  %td= item.position
                   %td
                     = link_to item.video.title, item.video
                   %td
@@ -30,6 +29,6 @@
                   %td
                     = link_to item.video.category.name, item.video.category
                   %td
-                    = link_to "", method: :post do
+                    = link_to item, method: :delete do
                       %i.glyphicon.glyphicon-remove
         = button_to "Update Instant Queue", nil, class: "btn btn-default"
